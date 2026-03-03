@@ -46,7 +46,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
 
     // Browser ide u headless modu (true = bez GUI, false = vidiš browser)
-    headless: false,
+    headless: true,
 
     // Timeout za svaku akciju (click, fill...) – 0 = nema limita
     actionTimeout: 40000,
