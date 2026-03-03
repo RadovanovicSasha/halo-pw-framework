@@ -1,0 +1,73 @@
+Smoke Test Cases – HaloOglasi.com
+
+Aplikacija: HaloOglasi (Web)
+URL: https://www.halooglasi.com/
+Test tip: Smoke
+Browser: Chromium / Chrome
+
+Test Scenario 1: Pristup sajtu i Cookies
+
+TC-001 – Otvaranje sajta
+Preuslov: Nema
+Koraci:
+1. Otvoriti https://www.halooglasi.com/
+Očekivano:
+- Početna strana se učitava bez greške i vidi se header sa pretragom.
+
+TC-002 – Prihvatanje cookies bannera
+Preuslov: Sajt otvoren, cookie banner je prikazan
+Koraci:
+1. Kliknuti na dugme "U redu"
+Očekivano:
+- Cookie banner nestaje i ne blokira elemente na stranici.
+Test Scenario 2: Autentikacija (Login)
+
+TC-003 – Otvaranje login strane
+Preuslov: Sajt otvoren
+Koraci:
+1. Kliknuti "Uloguj se" ili otvoriti /prijava
+Očekivano:
+- Prikazana je login forma sa poljima za e-mail i lozinku.
+
+TC-004 – Uspešan login validnim kredencijalima
+Preuslov: Login forma je prikazana
+Test podaci: Validan user i password
+Koraci:
+1. Uneti validan user
+2. Uneti validan password
+3. Kliknuti "Uloguj me"
+Očekivano:
+- Korisnik je uspešno ulogovan.
+- Otvara se stranica /profil.
+- U headeru je vidljivo "Moj profil".
+Test Scenario 3: Profil validacija
+
+TC-005 – Profil strana se učitava
+Preuslov: Korisnik je ulogovan
+Koraci:
+1. Otvoriti /profil
+Očekivano:
+- Naslov "Moj profil" je vidljiv.
+- Levo su prikazane opcije: Moji oglasi, Moje poruke, Podešavanja itd.
+Test Scenario 4: Global Search
+
+TC-006 – Global search funkcionalnost
+Preuslov: Korisnik je ulogovan
+Test podaci: "plac"
+Koraci:
+1. U search polje uneti "plac"
+2. Pritisnuti Enter ili kliknuti na lupu
+Očekivano:
+- Otvara se stranica sa rezultatima pretrage.
+- URL sadrži search_text=plac.
+- Prikazani su rezultati pretrage.
+
+TC-007 – Uspešan logout
+Preuslov: Korisnik je ulogovan
+Koraci:
+1.	Klik na “Moj profil”
+2.	Klik na “Odjavi se”
+Očekivano:
+•	Korisnik je vraćen na početnu stranu
+•	Dugme “Uloguj se” je ponovo vidljivo
+
