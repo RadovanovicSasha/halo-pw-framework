@@ -22,11 +22,12 @@ npm ci
 npx playwright install --with-deps
 ```
 
-Kreiraj `.env` fajl u root-u projekta sa kredencijalima koje testovi koriste:
+Kreiraj `.env` fajl u root-u projekta (videti `.env.example`) sa kredencijalima koje testovi koriste:
 
 ```
 HALO_USER=<tvoj email ili korisničko ime>
 HALO_PASS=<tvoja lozinka>
+BASE_URL=https://www.halooglasi.com
 ```
 
 `.env` je gitignored i nikad se ne commit-uje. Na CI, kredencijali se ubrizgavaju preko GitHub Secrets (`HALO_USER`, `HALO_PASS`).
@@ -44,6 +45,10 @@ npm run test:report   # otvara poslednji HTML report
 
 ```
 halo-pw-framework/
+├── config/
+│   └── env.ts                   baseUrl/haloUser/haloPass iz .env
+├── testdata/
+│   └── searchData.ts            test podaci (search termovi)
 ├── pages/                       Page Objects
 │   ├── BasePage.ts
 │   ├── HaloLoginPage.ts
@@ -51,14 +56,19 @@ halo-pw-framework/
 │   └── LogoutHeaderPage.ts
 ├── tests/
 │   ├── BaseTest.ts              Playwright fixture-i (proširen test/expect)
-│   ├── halo-login.spec.ts
-│   ├── halo-logout.spec.ts
-│   └── halo-profile-search.spec.ts
+│   ├── smoke/                   osnovne, kritične provere
+│   │   ├── halo-login.spec.ts
+│   │   ├── halo-logout.spec.ts
+│   │   └── halo-profile-search.spec.ts
+│   ├── regression/              (za sada prazno)
+│   ├── e2e/                     pune korisničke putanje (za sada prazno)
+│   └── negative/                negativni scenariji (za sada prazno)
 ├── playwright.config.ts
+├── .env.example
 └── .github/workflows/playwright.yml
 ```
 
-Struktura se postupno usklađuje sa referentnom arhitekturom definisanom u `ai-operating-system` (config/testdata slojevi, podela testova na smoke/regression/e2e/negative) — ovaj README se ažurira uz svaki takav korak.
+Struktura se postupno usklađuje sa referentnom arhitekturom definisanom u `ai-operating-system` — ovaj README se ažurira uz svaki takav korak.
 
 ## Reporting
 

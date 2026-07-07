@@ -1,6 +1,6 @@
-import { test, expect } from './BaseTest';
-import { config } from '../config/env';
-import { searchData } from '../testdata/searchData';
+import { test, expect } from '../BaseTest';
+import { config } from '../../config/env';
+import { searchData } from '../../testdata/searchData';
 
 //Uvozimo proširenu test funkciju iz BaseTest
 
