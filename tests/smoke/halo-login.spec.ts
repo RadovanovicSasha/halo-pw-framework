@@ -8,12 +8,12 @@ import { config } from '../../config/env';
 
 //  U argumente test funkcije prosledjujemo objekte onih pages stranica koje koristimo u testu
 
-test('Halo: cookies -> uloguj se -> user/pass -> uloguj me', async ({ haloLoginPage, page }) => {
+test('Halo: cookies -> uloguj se -> user/pass -> uloguj me', async ({ haloLoginPage, haloProfilePage, page }) => {
   await haloLoginPage.acceptCookiesIfVisible();
   await haloLoginPage.goToLogin();
 
   await haloLoginPage.login(config.haloUser, config.haloPass);
 
   await expect(page).toHaveURL(/\/profil/);
-  await expect(page.getByRole('link', { name: /Moj profil/i })).toBeVisible({ timeout: 30000 });
+  await expect(haloProfilePage.profileLink).toBeVisible({ timeout: 30000 });
 });

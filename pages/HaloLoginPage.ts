@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class HaloLoginPage extends BasePage {
@@ -55,9 +55,6 @@ export class HaloLoginPage extends BasePage {
 async goToLogin() {
   // direktan odlazak na login stranicu
   await this.page.goto('/prijava');
-
-  // čekanje na učitavanje forme
-  await expect(this.username).toBeVisible({ timeout: 30000 });
 }
 
 }

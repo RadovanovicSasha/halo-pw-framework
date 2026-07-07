@@ -9,7 +9,7 @@ import { searchData } from '../../testdata/searchData';
 
 //  U argumente test funkcije prosledjujemo objekte onih pages stranica koje koristimo u testu
 
-test('Halo: posle logina radi global search u headeru', async ({ haloLoginPage, page }) => {
+test('Halo: posle logina radi global search u headeru', async ({ haloLoginPage, searchResultsPage, page }) => {
   await haloLoginPage.acceptCookiesIfVisible();
   await haloLoginPage.goToLogin();
 
@@ -17,11 +17,8 @@ test('Halo: posle logina radi global search u headeru', async ({ haloLoginPage, 
 
   await expect(page).toHaveURL(/\/profil/);
 
-  const globalSearch = page.locator('#search-query');
-  await expect(globalSearch).toBeVisible();
-
-  await globalSearch.fill(searchData.globalSearchTerm);
-  await globalSearch.press('Enter');
+  await expect(searchResultsPage.globalSearchInput).toBeVisible();
+  await searchResultsPage.search(searchData.globalSearchTerm);
 
   // dokaz da je pretraga pokrenuta (napustili smo profil)
   await expect(page).not.toHaveURL(/\/profil\/?$/);

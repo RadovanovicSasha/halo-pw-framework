@@ -26,6 +26,6 @@ test('Halo: logout flow', async ({ haloLoginPage, logoutHeaderPage, page }) => {
   await logoutHeaderPage.logout();
 
   // Provera da smo uspešno izlogovani
-  await logoutHeaderPage.assertLoggedOut();
+  await expect(logoutHeaderPage.loginLink).toBeVisible({ timeout: 20000 });
 
 });

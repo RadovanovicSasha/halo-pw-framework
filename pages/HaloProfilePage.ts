@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class HaloProfilePage extends BasePage {
@@ -32,18 +32,9 @@ export class HaloProfilePage extends BasePage {
 
 //Za async funkcije nema void ako ne vraća nijedan tip podatka
 
-  async assertOnProfile() {
-    await expect(this.profileLink).toBeVisible();
-    await expect(this.page).toHaveURL(/\/profil/);
-  }
-
   async searchMyAds(term: string) {
     await this.searchInput.fill(term);
     // u slučaju da je dugme teško uhvatiti, Enter radi 100%
     await this.searchInput.press('Enter');
-  }
-
-  async expectResultsVisible() {
-    await expect(this.resultsCount).toBeVisible();
   }
 }

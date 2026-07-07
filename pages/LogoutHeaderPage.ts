@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class LogoutHeaderPage extends BasePage {
@@ -30,11 +30,6 @@ export class LogoutHeaderPage extends BasePage {
 
   async logout() {
     await this.myProfileLink.click();
-    await expect(this.logoutLink).toBeVisible({ timeout: 20000 });
     await this.logoutLink.click();
-  }
-
-  async assertLoggedOut() {
-    await expect(this.loginLink).toBeVisible({ timeout: 20000 });
   }
 }
