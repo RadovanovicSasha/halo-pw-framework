@@ -2,6 +2,8 @@ import { test as base, expect } from '@playwright/test';
 import { HaloLoginPage } from '../pages/HaloLoginPage';
 import { HaloProfilePage } from '../pages/HaloProfilePage';
 import { LogoutHeaderPage } from '../pages/LogoutHeaderPage';
+import { SearchResultsPage } from '../pages/SearchResultsPage';
+import { AdDetailPage } from '../pages/AdDetailPage';
 //.. jer je nivo iznad
 //Uzimam test iz @playwright/test i proširujem ga i nazivam base. Pravi se proširena verzija test funkcije, koja dodaje sopstvene fixture-e ili logiku.
 
@@ -13,6 +15,8 @@ type Fixtures = {
   haloLoginPage: HaloLoginPage;
   haloProfilePage: HaloProfilePage;
   logoutHeaderPage: LogoutHeaderPage;
+  searchResultsPage: SearchResultsPage;
+  adDetailPage: AdDetailPage;
 };
 
 //Proširujemo test sa objektima pages klasa, koristimo Fixtures da se zna kog su tipa loginPage, homePage...
@@ -26,6 +30,12 @@ export const test = base.extend<Fixtures>({
   },
   logoutHeaderPage: async ({ page }, use) => {
     await use(new LogoutHeaderPage(page));
+  },
+  searchResultsPage: async ({ page }, use) => {
+    await use(new SearchResultsPage(page));
+  },
+  adDetailPage: async ({ page }, use) => {
+    await use(new AdDetailPage(page));
   },
 });
 
