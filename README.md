@@ -48,12 +48,15 @@ halo-pw-framework/
 ├── config/
 │   └── env.ts                   baseUrl/haloUser/haloPass iz .env
 ├── testdata/
-│   └── searchData.ts            test podaci (search termovi)
+│   ├── searchData.ts            search termovi (globalSearchTerm, e2eSearchTerm)
+│   └── loginData.ts             nevalidni kredencijali za negative test
 ├── pages/                       Page Objects
 │   ├── BasePage.ts
 │   ├── HaloLoginPage.ts
 │   ├── HaloProfilePage.ts
-│   └── LogoutHeaderPage.ts
+│   ├── LogoutHeaderPage.ts
+│   ├── SearchResultsPage.ts     rezultati pretrage (kartice oglasa)
+│   └── AdDetailPage.ts          stranica detalja oglasa
 ├── tests/
 │   ├── BaseTest.ts              Playwright fixture-i (proširen test/expect)
 │   ├── smoke/                   osnovne, kritične provere
@@ -61,8 +64,10 @@ halo-pw-framework/
 │   │   ├── halo-logout.spec.ts
 │   │   └── halo-profile-search.spec.ts
 │   ├── regression/              (za sada prazno)
-│   ├── e2e/                     pune korisničke putanje (za sada prazno)
-│   └── negative/                negativni scenariji (za sada prazno)
+│   ├── e2e/                     pune korisničke putanje
+│   │   └── halo-search-and-view-ad.spec.ts
+│   └── negative/                negativni scenariji
+│       └── halo-invalid-login.spec.ts
 ├── playwright.config.ts
 ├── .env.example
 └── .github/workflows/playwright.yml
