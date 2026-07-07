@@ -12,6 +12,7 @@ export class HaloLoginPage extends BasePage {
   readonly username: Locator;
   readonly password: Locator;
   readonly loginBtn: Locator;
+  readonly invalidLoginError: Locator;
 
 // Svaki test ima poseban "živi" page koji Playwright automatski kreira.
 // Kreiranjem lokatora unutar konstruktora obezbeđuje se da objekti pages klasa
@@ -31,6 +32,9 @@ export class HaloLoginPage extends BasePage {
   this.username = page.getByLabel(/E-mail ili korisničko ime/i);
   this.password = page.getByLabel(/Lozinka/i);
   this.loginBtn = page.getByRole('button', { name: /Uloguj me/i });
+
+  // error box koji se prikazuje pri pogrešnim kredencijalima
+  this.invalidLoginError = page.getByText('Neispravno korisničko ime ili lozinka.');
   }
 
 //Za async funkcije nema void ako ne vraća nijedan tip podatka
