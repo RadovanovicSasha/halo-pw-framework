@@ -1,7 +1,5 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
-
 import { defineConfig, devices } from '@playwright/test';
+import { config } from './config/env';
 
 export default defineConfig({
   // Gde se nalaze test fajlovi
@@ -34,7 +32,7 @@ export default defineConfig({
   // Globalne postavke za sve testove
   use: {
 
-    baseURL: 'https://www.halooglasi.com',
+    baseURL: config.baseUrl,
     
     // Screenshot pravi SAMO kad test padne
     screenshot: 'only-on-failure',

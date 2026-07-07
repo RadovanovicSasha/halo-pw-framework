@@ -1,4 +1,5 @@
 import { test, expect } from './BaseTest';
+import { config } from '../config/env';
 
 //Uvozimo proširenu test funkciju iz BaseTest
 
@@ -11,10 +12,7 @@ test('Halo: posle logina radi global search u headeru', async ({ haloLoginPage, 
   await haloLoginPage.acceptCookiesIfVisible();
   await haloLoginPage.goToLogin();
 
-   const user = process.env.HALO_USER!;
-  const pass = process.env.HALO_PASS!;
-
-  await haloLoginPage.login(user, pass);
+  await haloLoginPage.login(config.haloUser, config.haloPass);
 
   await expect(page).toHaveURL(/\/profil/);
 

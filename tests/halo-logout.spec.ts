@@ -1,4 +1,5 @@
 import { test, expect } from './BaseTest';
+import { config } from '../config/env';
 
 //Uvozimo proširenu test funkciju iz BaseTest
 
@@ -16,10 +17,7 @@ test('Halo: logout flow', async ({ haloLoginPage, logoutHeaderPage, page }) => {
   await haloLoginPage.goToLogin();
 
   // Unesi kredencijale
-   const user = process.env.HALO_USER!;
-  const pass = process.env.HALO_PASS!;
-
-  await haloLoginPage.login(user, pass);
+  await haloLoginPage.login(config.haloUser, config.haloPass);
 
   // Provera da smo na profilu
   await expect(page).toHaveURL(/\/profil/);

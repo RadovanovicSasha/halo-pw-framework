@@ -1,4 +1,5 @@
 import { test, expect } from './BaseTest';
+import { config } from '../config/env';
 
 //Uvozimo proširenu test funkciju iz BaseTest
 
@@ -11,12 +12,7 @@ test('Halo: cookies -> uloguj se -> user/pass -> uloguj me', async ({ haloLoginP
   await haloLoginPage.acceptCookiesIfVisible();
   await haloLoginPage.goToLogin();
 
-  // USER I PASS
-  const user = process.env.HALO_USER!;
-  const pass = process.env.HALO_PASS!;
-
-
-  await haloLoginPage.login(user, pass);
+  await haloLoginPage.login(config.haloUser, config.haloPass);
 
   await expect(page).toHaveURL(/\/profil/);
   await expect(page.getByRole('link', { name: /Moj profil/i })).toBeVisible({ timeout: 30000 });
