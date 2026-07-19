@@ -63,11 +63,15 @@ halo-pw-framework/
 │   │   ├── halo-login.spec.ts
 │   │   ├── halo-logout.spec.ts
 │   │   └── halo-profile-search.spec.ts
-│   ├── regression/              (za sada prazno)
+│   ├── regression/              boundary/edge case provere
+│   │   └── halo-search-no-results.spec.ts
 │   ├── e2e/                     pune korisničke putanje
 │   │   └── halo-search-and-view-ad.spec.ts
-│   └── negative/                negativni scenariji
-│       └── halo-invalid-login.spec.ts
+│   └── negative/                negativni i autorizacioni scenariji
+│       ├── halo-invalid-login.spec.ts
+│       ├── halo-login-validation.spec.ts
+│       ├── halo-unauthorized-profile-access.spec.ts
+│       └── halo-session-invalidated-after-logout.spec.ts
 ├── playwright.config.ts
 ├── .env.example
 └── .github/workflows/playwright.yml

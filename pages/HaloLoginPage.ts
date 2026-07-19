@@ -7,12 +7,15 @@ export class HaloLoginPage extends BasePage {
 //Moramo navesti kog tipa su lokatori jer koristimo TypeScript a po njemu je tip Locator
 
   readonly cookiesOkBtn: Locator;
+  readonly securityNoticeOkBtn: Locator;
   readonly loginLink: Locator;
 
   readonly username: Locator;
   readonly password: Locator;
   readonly loginBtn: Locator;
   readonly invalidLoginError: Locator;
+  readonly usernameFieldError: Locator;
+  readonly passwordFieldError: Locator;
 
 // Svaki test ima poseban "živi" page koji Playwright automatski kreira.
 // Kreiranjem lokatora unutar konstruktora obezbeđuje se da objekti pages klasa
@@ -25,6 +28,11 @@ export class HaloLoginPage extends BasePage {
     // cookies: "U redu"
     this.cookiesOkBtn = page.locator('p.cookie-policy-btn', { hasText: 'U redu' });
 
+    // sajt povremeno prikazuje modal upozorenje ("ne delite lične podatke...") koji zaklanja formu
+    this.securityNoticeOkBtn = page
+      .locator('.e-system-notifications__item-modal')
+      .getByRole('button', { name: 'U redu' });
+
     // header link: "Uloguj se" (href počinje sa /prijava)
     this.loginLink = page.locator('a[href^="/prijava"]');
 
@@ -35,6 +43,10 @@ export class HaloLoginPage extends BasePage {
 
   // error box koji se prikazuje pri pogrešnim kredencijalima
   this.invalidLoginError = page.getByText('Neispravno korisničko ime ili lozinka.');
+
+  // polja dobijaju ovu klasu kad je forma poslata prazna (client/server validacija)
+  this.usernameFieldError = page.locator('#EMailOrUsername.input-validation-error');
+  this.passwordFieldError = page.locator('#Password.input-validation-error');
   }
 
 //Za async funkcije nema void ako ne vraća nijedan tip podatka
@@ -50,6 +62,11 @@ export class HaloLoginPage extends BasePage {
     if (await this.cookiesOkBtn.isVisible().catch(() => false)) {
       await this.cookiesOkBtn.click();
     }
+  }
+
+  async dismissSecurityNoticeIfVisible() {
+    // modal se ponekad pojavi sa kašnjenjem, zato čekamo kratko umesto trenutne provere isVisible()
+    await this.securityNoticeOkBtn.click({ timeout: 5000 }).catch(() => {});
   }
 
 async goToLogin() {
