@@ -1,19 +1,27 @@
 # Halo PW Framework
 
-Playwright + TypeScript UI automation framework za [halooglasi.com](https://www.halooglasi.com).
+Playwright + TypeScript UI automation framework for [halooglasi.com](https://www.halooglasi.com).
 
-Pokriva: login, logout i pretragu u okviru korisničkog profila. Ne pokriva i neće pokrivati bilo kakvu kupovinu, plaćanje ili slanje realne porudžbine.
+The project covers login, logout, and search functionality within the user profile. It does **not** cover, and is **not intended to cover**, purchasing, payments, or placing real orders.
 
-## Tehnologije
+## Notes
+
+This framework automates a public third-party website (`halooglasi.com`).
+
+Because the target website is protected by Cloudflare and other anti-bot mechanisms, GitHub-hosted CI runners may occasionally be blocked before the application becomes reachable.
+
+In such cases, failed CI executions represent an external infrastructure limitation rather than a defect in the Playwright framework or the implemented test suite. Local execution remains the primary validation method.
+
+## Technologies
 
 - [Playwright Test](https://playwright.dev/) (`@playwright/test`)
 - TypeScript
-- `dotenv` za učitavanje kredencijala iz `.env`
+- `dotenv` for loading credentials from `.env`
 
-## Preduslovi
+## Prerequisites
 
 - Node.js (LTS)
-- Nalog na halooglasi.com sa validnim kredencijalima za testiranje
+- A Halo oglasi account with valid test credentials
 
 ## Setup
 
@@ -22,67 +30,67 @@ npm ci
 npx playwright install --with-deps
 ```
 
-Kreiraj `.env` fajl u root-u projekta (videti `.env.example`) sa kredencijalima koje testovi koriste:
+Create a `.env` file in the project root (see `.env.example`) with the credentials used by the tests:
 
-```
-HALO_USER=<tvoj email ili korisničko ime>
-HALO_PASS=<tvoja lozinka>
+```text
+HALO_USER=<your email or username>
+HALO_PASS=<your password>
 BASE_URL=https://www.halooglasi.com
 ```
 
-`.env` je gitignored i nikad se ne commit-uje. Na CI, kredencijali se ubrizgavaju preko GitHub Secrets (`HALO_USER`, `HALO_PASS`).
+The `.env` file is gitignored and must never be committed.
 
-## Pokretanje testova
+In CI, credentials are securely injected through GitHub Secrets (`HALO_USER` and `HALO_PASS`).
+
+## Running Tests
 
 ```bash
-npm test              # svi testovi, headless
-npm run test:headed   # sa vidljivim browserom
+npm test              # Run all tests (headless)
+npm run test:headed   # Run with a visible browser
 npm run test:ui       # Playwright UI mode
-npm run test:report   # otvara poslednji HTML report
+npm run test:report   # Open the latest HTML report
 ```
 
-## Struktura projekta
+## Project Structure
 
-```
+```text
 halo-pw-framework/
 ├── config/
-│   └── env.ts                   baseUrl/haloUser/haloPass iz .env
+│   └── env.ts                   Loads baseUrl, haloUser and haloPass from .env
 ├── testdata/
-│   ├── searchData.ts            search termovi (globalSearchTerm, e2eSearchTerm)
-│   └── loginData.ts             nevalidni kredencijali za negative test
+│   ├── searchData.ts            Search terms
+│   └── loginData.ts             Invalid credentials for negative tests
 ├── pages/                       Page Objects
 │   ├── BasePage.ts
 │   ├── HaloLoginPage.ts
 │   ├── HaloProfilePage.ts
 │   ├── LogoutHeaderPage.ts
-│   ├── SearchResultsPage.ts     rezultati pretrage (kartice oglasa)
-│   └── AdDetailPage.ts          stranica detalja oglasa
+│   ├── SearchResultsPage.ts
+│   └── AdDetailPage.ts
 ├── tests/
-│   ├── BaseTest.ts              Playwright fixture-i (proširen test/expect)
-│   ├── smoke/                   osnovne, kritične provere
-│   │   ├── halo-login.spec.ts
-│   │   ├── halo-logout.spec.ts
-│   │   └── halo-profile-search.spec.ts
-│   ├── regression/              boundary/edge case provere
-│   │   └── halo-search-no-results.spec.ts
-│   ├── e2e/                     pune korisničke putanje
-│   │   └── halo-search-and-view-ad.spec.ts
-│   └── negative/                negativni i autorizacioni scenariji
-│       ├── halo-invalid-login.spec.ts
-│       ├── halo-login-validation.spec.ts
-│       ├── halo-unauthorized-profile-access.spec.ts
-│       └── halo-session-invalidated-after-logout.spec.ts
+│   ├── BaseTest.ts              Shared Playwright fixtures
+│   ├── smoke/
+│   ├── regression/
+│   ├── e2e/
+│   └── negative/
 ├── playwright.config.ts
 ├── .env.example
 └── .github/workflows/playwright.yml
 ```
 
-Struktura se postupno usklađuje sa referentnom arhitekturom definisanom u `ai-operating-system` — ovaj README se ažurira uz svaki takav korak.
+The framework follows the **Page Object Model (POM)** design pattern and is organized to promote maintainability, readability, and scalability.
 
 ## Reporting
 
-Playwright generiše HTML report u `playwright-report/` (gitignored) i, na CI, upload-uje se kao artifact.
+Playwright generates an HTML report in the `playwright-report/` directory (gitignored).
 
-## CI
+GitHub Actions uploads the report as a workflow artifact after every CI execution.
 
-`.github/workflows/playwright.yml` pokreće ceo test sabor na push/PR ka `main`/`master` i po dnevnom rasporedu (07:00 UTC).
+## Continuous Integration
+
+The GitHub Actions workflow (`.github/workflows/playwright.yml`) automatically executes the complete test suite on:
+
+- every push to `main` or `master`
+- every pull request targeting `main` or `master`
+- a scheduled daily run (07:00 UTC)
+
