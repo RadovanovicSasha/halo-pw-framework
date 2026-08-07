@@ -4,9 +4,9 @@ test('Halo: prijava sa praznim poljima prikazuje validacione greške i ne pušta
   haloLoginPage,
   page,
 }) => {
-  await haloLoginPage.acceptCookiesIfVisible();
+  await haloLoginPage.handleKnownObstacles();
   await haloLoginPage.goToLogin();
-  await haloLoginPage.dismissSecurityNoticeIfVisible();
+  await haloLoginPage.handleKnownObstacles();
 
   await haloLoginPage.loginBtn.click();
 

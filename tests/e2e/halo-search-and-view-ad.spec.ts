@@ -8,7 +8,7 @@ test('Halo: login, pretraga, otvaranje oglasa i pregled detalja', async ({
   adDetailPage,
   page,
 }) => {
-  await haloLoginPage.acceptCookiesIfVisible();
+  await haloLoginPage.handleKnownObstacles();
   await haloLoginPage.goToLogin();
   await haloLoginPage.login(config.haloUser, config.haloPass);
   await expect(page).toHaveURL(/\/profil/);

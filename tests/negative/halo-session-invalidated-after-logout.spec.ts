@@ -6,7 +6,7 @@ test('Halo: posle izlogovanja direktan pristup profilu ponovo traži prijavu', a
   logoutHeaderPage,
   page,
 }) => {
-  await haloLoginPage.acceptCookiesIfVisible();
+  await haloLoginPage.handleKnownObstacles();
   await haloLoginPage.goToLogin();
   await haloLoginPage.login(config.haloUser, config.haloPass);
   await expect(page).toHaveURL(/\/profil/);

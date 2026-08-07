@@ -4,7 +4,7 @@ test('Halo: pretraga nepostojećeg pojma ne vraća kartice oglasa', async ({
   haloLoginPage,
   searchResultsPage,
 }) => {
-  await haloLoginPage.acceptCookiesIfVisible();
+  await haloLoginPage.handleKnownObstacles();
 
   await searchResultsPage.search('zzzzxxxxqqqqnepostojeciwqe12345');
 
