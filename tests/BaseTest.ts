@@ -4,12 +4,9 @@ import { HaloProfilePage } from '../pages/HaloProfilePage';
 import { LogoutHeaderPage } from '../pages/LogoutHeaderPage';
 import { SearchResultsPage } from '../pages/SearchResultsPage';
 import { AdDetailPage } from '../pages/AdDetailPage';
-//.. jer je nivo iznad
-//Uzimam test iz @playwright/test i proširujem ga i nazivam base. Pravi se proširena verzija test funkcije, koja dodaje sopstvene fixture-e ili logiku.
 
-//const BASE_URL = 'https://www.halooglasi.com/';
-
-//Navodimo promenljive i kog su tipa, koristimo ih kasnije u ovom fajlu
+// Extends Playwright's base test with one fixture per page object, so specs
+// can request e.g. `haloLoginPage` directly instead of instantiating it.
 type Fixtures = {
 
   haloLoginPage: HaloLoginPage;
@@ -19,7 +16,6 @@ type Fixtures = {
   adDetailPage: AdDetailPage;
 };
 
-//Proširujemo test sa objektima pages klasa, koristimo Fixtures da se zna kog su tipa loginPage, homePage...
 export const test = base.extend<Fixtures>({
 
   haloLoginPage: async ({ page }, use) => {
@@ -39,9 +35,8 @@ export const test = base.extend<Fixtures>({
   },
 });
 
-// kompletan smoketest samo jednom koristi login i logout, otvaramo baseURL:
 export { expect };
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/'); // koristi baseURL iz playwright.config.ts
+  await page.goto('/'); // resolves against baseURL from playwright.config.ts
 });
