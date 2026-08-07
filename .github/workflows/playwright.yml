@@ -5,7 +5,8 @@ on:
   pull_request:
     branches: [ main, master ]
   schedule:
-    - cron: "0 7 * * *"  # 07:00 UTC (zimi = 08:00 Beograd, leti = 09:00)
+    - cron: "0 7 * * *"  # 07:00 UTC (zimi = 08:00 Beograd, leti = 09:00) -- covers the full suite, including account-touching specs
+  workflow_dispatch:  # manual trigger for on-demand full-suite runs
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -19,7 +20,24 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
+
+    # push/pull_request fire on every commit and PR. The account-touching
+    # project authenticates against the one real Halo Oglasi test account,
+    # so running it on every push multiplies exposure to the site's anti-bot
+    # protections without a matching benefit -- see README "CI Scope & Known
+    # Limitations" for the evidence behind this split.
+    - name: Run Playwright tests (push/PR -- excludes account-touching specs)
+      if: github.event_name == 'push' || github.event_name == 'pull_request'
+      env:
+        HALO_USER: ${{ secrets.HALO_USER }} # USER
+        HALO_PASS: ${{ secrets.HALO_PASS }} # PASS
+      run: npx playwright test --project=Chromium
+
+    # schedule/workflow_dispatch run the full suite, including the
+    # account-touching project, at a lower frequency (once daily) or on
+    # demand rather than on every push.
+    - name: Run Playwright tests (scheduled/manual -- full suite)
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       env:
         HALO_USER: ${{ secrets.HALO_USER }} # USER
         HALO_PASS: ${{ secrets.HALO_PASS }} # PASS
