@@ -1,0 +1,6 @@
+{
+  "baseUrl": "https://www.halooglasi.com",
+  "actionTimeout": 40000,
+  "expectTimeout": 20000,
+  "testTimeout": 120000
+}

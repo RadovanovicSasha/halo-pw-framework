@@ -2,55 +2,54 @@ import { defineConfig, devices } from '@playwright/test';
 import { config } from './config/env';
 
 export default defineConfig({
-  // Gde se nalaze test fajlovi
+  // Where test files live
   testDir: './tests',
 
-  // Globalni timeout za ceo test (ms)
-  // Ako test traje duže od 120 sekundi -> prekida se
-  timeout: 120 * 1000,
+  // Overall per-test timeout (ms), environment-configurable via config/env.ts
+  timeout: config.timeouts.test,
 
-  // Timeout za expect() asercije, koliko dugo čeka da se uslov ispuni pre nego što javi fail
+  // Timeout for expect() assertions, environment-configurable via config/env.ts
   expect: {
-    timeout: 20000, // 20 sekundi
+    timeout: config.timeouts.expect,
   },
 
-  // Da li se testovi izvršavaju paralelno
+  // Whether tests run in parallel
   fullyParallel: true,
 
-  // Koliko puta da pokuša ponovo test ako failuje (u CI 2x)
-  retries: process.env.CI ? 2 : 0,
+  // Retry count on failure (2x on CI only)
+  retries: config.isCi ? 2 : 0,
 
-  // Broj paralelnih workera (ako si na CI smanjuje na 1)
-  workers: process.env.CI ? 1 : undefined,
+  // Worker count (capped to 1 on CI)
+  workers: config.isCi ? 1 : undefined,
 
-  // Reporter za rezultate (list u terminalu + HTML fajl)
+  // Result reporters (list in the terminal + HTML file)
   reporter: [
     ['list'],                      // keeps normal console output
     ['html', { open: 'never' }]    // generates HTML report but doesn't auto-open
   ],
 
-  // Globalne postavke za sve testove
+  // Global settings applied to all tests
   use: {
 
     baseURL: config.baseUrl,
-    
-    // Screenshot pravi SAMO kad test padne
+
+    // Screenshot ONLY on test failure
     screenshot: 'only-on-failure',
 
-    // Video snimak se čuva SAMO kad test padne
+    // Video ONLY retained on test failure
     video: 'retain-on-failure',
 
-    // Trace (koristan za debugging) se snima SAMO kad test padne
+    // Trace (useful for debugging) ONLY retained on test failure
     trace: 'retain-on-failure',
 
-    // Browser ide u headless modu (true = bez GUI, false = vidiš browser)
+    // Browser runs headless (true = no GUI, false = visible browser)
     headless: true,
 
-    // Timeout za svaku akciju (click, fill...) – 0 = nema limita
-    actionTimeout: 40000,
+    // Timeout for each action (click, fill...), environment-configurable via config/env.ts
+    actionTimeout: config.timeouts.action,
   },
 
-  // Projekti – možeš pokretati testove na različitim browserima
+  // Projects -- lets you run tests against different browsers
   projects: [
     {
       name: 'Chromium',
